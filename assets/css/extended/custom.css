@@ -1,0 +1,99 @@
+/* This targets both Light and Dark modes */
+:root, .dark {
+    --theme: #0077B6 !important;
+    --primary: #00B4D8 !important;
+    --secondary: #90E0EF !important;
+    --tertiary: #ADE8F4 !important;
+    
+    /* PaperMod Internal Variable Overrides */
+    --nav-bg: #0077B6 !important;
+    --main-bg: #f8fdff !important; /* Light blue tint for background */
+    --entry: #ffffff !important;
+    --border: #00B4D8 !important;
+}
+
+/* Force Header/Navbar to Deep Blue */
+.header {
+    background: #0077B6 !important;
+}
+
+.header a {
+    color: #ffffff !important;
+}
+
+/* Fix Profile Mode background from your screenshot */
+.profile_inner {
+    background: #f0faff !important;
+    border-top: 8px solid #0077B6 !important;
+    color: #2b2b2b !important;
+    border-radius: 12px;
+}
+
+/* Table styling for your Arsenal page */
+table {
+    border: 2px solid #00B4D8 !important;
+    background-color: #ffffff !important;
+    color: #2b2b2b !important;
+}
+
+th, td {
+    border: 1px solid #00B4D8 !important;
+    padding: 12px;
+}
+
+/* Skill Card Styling */
+.skill-card {
+    display: flex;
+    background-color: var(--entry);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    overflow: hidden;
+}
+
+.skill-card:hover {
+    transform: translateY(-5px);
+}
+
+.skill-card.right {
+    flex-direction: row-reverse;
+}
+
+.card-image {
+    width: 150px;
+    min-width: 150px;
+    background: #ADE8F4; /* Placeholder Blue */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 15px;
+    flex-grow: 1;
+}
+
+.skill-card-title {
+    font-weight: bold;
+    font-size: 1.2em;
+    color: var(--primary);
+    margin-bottom: 10px;
+}
+
+.skill-cards-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
+}
+
+.skill-cards-container h3 {
+    grid-column: 1 / -1;
+}

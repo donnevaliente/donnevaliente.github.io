@@ -5,19 +5,15 @@ theme = 'PaperMod'
 
 [params]
     defaultTheme = "auto"
-[params.profileMode]
-    enabled = true
-    title = "Obed Tawiah Nyavor"
-    subtitle = "PhD Researcher in Mechanical Engineering at LSU | 3D/4D Printing |Smart Polymers | Advanced Composites | Biomimetics | AI in Materials Design | Computational Materials Science"
-    # Replace with your actual GitHub/LinkedIn from CV
+
+    [params.profileMode]
+        enabled = true
+        title = "Obed Tawiah Nyavor"
+        subtitle = "PhD Researcher in Mechanical Engineering at LSU | 3D/4D Printing | Smart Polymers | Advanced Composites | Biomimetics | AI in Materials Design | Computational Materials Science"
+
     [[params.socialIcons]]
         name = "linkedin"
         url = "https://www.linkedin.com/in/obed-t-nyavor/"
-    [[menu.main]]
-        name = "Google Scholar"
-        url = "https://scholar.google.com/citations?user=GuBTPAYAAAAJ"
-        weight = 60
-
 
 [menu]
     [[menu.main]]
@@ -40,3 +36,7 @@ theme = 'PaperMod'
         name = "Contact"
         url = "/contact"
         weight = 50
+    [[menu.main]]
+        name = "Google Scholar"
+        url = "https://scholar.google.com/citations?user=GuBTPAYAAAAJ"
+        weight = 60
