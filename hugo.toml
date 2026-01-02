@@ -1,4 +1,52 @@
 baseURL = 'https://donnevaliente.github.io/'
 languageCode = 'en-us'
-title = 'My Portfolio'
+title = 'Obed Nyavor'
 theme = 'PaperMod'
+
+[params]
+    defaultTheme = "auto"
+    [params.profileMode]
+        enabled = true
+        title = "Obed Nyavor"
+        subtitle = "Ph.D student at Louisiana State University"
+        subtitle2 = "Materials Science and Engineering | Mechanical Engineering"
+        imageUrl = "https://your-image-url.jpg" 
+        
+        # Note: No [params.profileMode.buttons] line here anymore!
+        
+        [[params.profileMode.buttons]]
+            name = "Publications"
+            url = "/posts"
+        [[params.profileMode.buttons]]
+            name = "CV"
+            url = "/cv.pdf"
+
+    [[params.socialIcons]]
+        name = "github"
+        url = "https://github.com/donnevaliente"
+    [[params.socialIcons]]
+        name = "linkedin"
+        url = "https://linkedin.com/in/donnevaliente"
+
+
+[menu]
+    [[menu.main]]
+        name = "Home"
+        url = "/"
+        weight = 10
+    [[menu.main]]
+        name = "Research"
+        url = "/research"
+        weight = 20
+    [[menu.main]]
+        name = "Publications"
+        url = "/posts"
+        weight = 30
+    [[menu.main]]
+        name = "Arsenal"
+        url = "/arsenal"
+        weight = 40
+    [[menu.main]]
+        name = "Contact"
+        url = "/contact"
+        weight = 50
