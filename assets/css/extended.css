@@ -1,0 +1,19 @@
+:root {
+    --theme: #0077B6;            /* Deep Blue */
+    --primary: #00B4D8;          /* Bright Blue */
+    --secondary: #90E0EF;        /* Light Blue */
+    --tertiary: #ADE8F4;         /* Softest Blue */
+    --content: #ffffff;
+    --nav-bg: #0077B6;
+}
+
+/* Change the background of the profile mode to your deep blue */
+.profile_inner {
+    background: #f8fdff;
+    border-top: 5px solid #0077B6;
+}
+
+/* Change button colors */
+.button {
+    background: #00B4D8 !important;
+}

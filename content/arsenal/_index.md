@@ -1,10 +1,13 @@
 ---
-title: "Arsenal"
+title: "The Arsenal"
 layout: "single"
 ---
-### Technical Skills
-* NMR Spectroscopy, IR, UV-Vis
-* Reticular Chemistry
+### Materials Characterization & Testing
+* [cite_start]**Electron Beam:** EBSD, SEM-EDS, TEM-EDS, STEM [cite: 120]
+* [cite_start]**Thermal:** TGA, DMA, DSC, Rheometer [cite: 122]
+* [cite_start]**Mechanical:** MTS Testing, Impact and Charpy [cite: 123]
 
-### Education
-* PhD in Chemistry, LSU (In Progress)
+### Software & Programming
+* [cite_start]**Languages:** Python, JavaScript, MATLAB, C++ [cite: 112]
+* [cite_start]**Simulation:** ORCA (DFT), LAMMPS (MD), VESTA [cite: 116]
+* [cite_start]**CAD:** AutoCAD, OnShape, SolidWorks [cite: 118]

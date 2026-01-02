@@ -5,28 +5,18 @@ theme = 'PaperMod'
 
 [params]
     defaultTheme = "auto"
-    [params.profileMode]
-        enabled = true
-        title = "Obed Nyavor"
-        subtitle = "Ph.D student at Louisiana State University"
-        subtitle2 = "Materials Science and Engineering | Mechanical Engineering"
-        imageUrl = "https://your-image-url.jpg" 
-        
-        # Note: No [params.profileMode.buttons] line here anymore!
-        
-        [[params.profileMode.buttons]]
-            name = "Publications"
-            url = "/posts"
-        [[params.profileMode.buttons]]
-            name = "CV"
-            url = "/cv.pdf"
-
-    [[params.socialIcons]]
-        name = "github"
-        url = "https://github.com/donnevaliente"
+[params.profileMode]
+    enabled = true
+    title = "Obed Tawiah Nyavor"
+    subtitle = "PhD Researcher in Mechanical Engineering at LSU | 3D/4D Printing |Smart Polymers | Advanced Composites | Biomimetics | AI in Materials Design | Computational Materials Science"
+    # Replace with your actual GitHub/LinkedIn from CV
     [[params.socialIcons]]
         name = "linkedin"
-        url = "https://linkedin.com/in/donnevaliente"
+        url = "https://www.linkedin.com/in/obed-t-nyavor/"
+    [[menu.main]]
+        name = "Google Scholar"
+        url = "https://scholar.google.com/citations?user=GuBTPAYAAAAJ"
+        weight = 60
 
 
 [menu]
