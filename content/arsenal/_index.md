@@ -143,7 +143,7 @@ layout: "single"
 **Troubleshooting** ~ Systematic problem-solving to find and fix issues in electronic circuits.
 {{< /skillcard >}}
 
-{{< skillcard title="Research Mgmt" image="https://via.placeholder.com/150" align="left" >}}
+{{< skillcard title="Research Management" image="https://via.placeholder.com/150" align="left" >}}
 **EndNote** ~ a commercial reference management software package, used to manage bibliographies and references when writing essays and articles.
 
 **Mendeley** ~ A reference manager and academic social network.

@@ -1,0 +1,43 @@
+baseURL = 'https://donnevaliente.github.io/'
+languageCode = 'en-us'
+title = 'Obed Nyavor'
+theme = 'PaperMod'
+
+[params]
+    defaultTheme = "auto"
+    customCSS = ["css/extended/homepage.css"]
+
+    [params.profileMode]
+        enabled = false
+        title = "Obed Tawiah Nyavor"
+        subtitle = "PhD Researcher in Mechanical Engineering at LSU | 3D/4D Printing | Smart Polymers | Advanced Composites | Biomimetics | AI in Materials Design | Computational Materials Science"
+
+    [[params.socialIcons]]
+        name = "linkedin"
+        url = "https://www.linkedin.com/in/obed-t-nyavor/"
+
+[menu]
+    [[menu.main]]
+        name = "Home"
+        url = "/"
+        weight = 10
+    [[menu.main]]
+        name = "Research"
+        url = "/research"
+        weight = 20
+    [[menu.main]]
+        name = "Publications"
+        url = "/posts"
+        weight = 30
+    [[menu.main]]
+        name = "Arsenal"
+        url = "/arsenal"
+        weight = 40
+    [[menu.main]]
+        name = "Contact"
+        url = "/contact"
+        weight = 50
+    [[menu.main]]
+        name = "Google Scholar"
+        url = "https://scholar.google.com/citations?user=GuBTPAYAAAAJ"
+        weight = 60

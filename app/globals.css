@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #0B132B;
+  --foreground: #F8FAFC;
+  --deep-slate: #0B132B;
+  --deep-teal: #25616D;
+  --sea-green: #1B998B;
+  --muted-slate: #94A3B8;
+  --crisp-white: #F8FAFC;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+}
+
+.bg-deeptech-grid {
+  background-image: 
+    radial-gradient(rgba(27, 153, 139, 0.15) 1px, transparent 1px),
+    radial-gradient(rgba(37, 97, 109, 0.1) 1px, #0B132B 1px);
+  background-size: 32px 32px;
+  background-position: 0 0, 16px 16px;
+}
+
+.glass-panel {
+  background-color: rgba(11, 19, 43, 0.75);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(37, 97, 109, 0.35);
+}
+
+.glass-panel:hover {
+  border-color: rgba(27, 153, 139, 0.6);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #070D1E;
+}
+::-webkit-scrollbar-thumb {
+  background: #25616D;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #1B998B;
+}
