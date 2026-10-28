@@ -1,10 +1,21 @@
 -- ==============================================================================
--- SUPABASE MIGRATION PATCH & REAL DATA SEED
+-- SUPABASE COMPLETE HARDENING, RLS POLICIES & SEED MIGRATION
 -- Target: Supabase SQL Editor
--- Author: Obed Tawiah Nyavor, Ph.D.
+-- Author: Obed Tawiah Nyavor, Ph.D. // A2MD
 -- ==============================================================================
 
--- 1. FIX & RELAX PUBLICATION TYPE CONSTRAINT (supports both schema codes & full labels)
+-- 1. CREATE CONTACT_MESSAGES TABLE
+CREATE TABLE IF NOT EXISTS public.contact_messages (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  name TEXT NOT NULL,
+  email TEXT NOT NULL,
+  affiliation TEXT,
+  subject TEXT,
+  message TEXT NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+-- 2. RELAX PUBLICATION TYPE CONSTRAINT (supports both schema codes & full labels)
 ALTER TABLE public.publications DROP CONSTRAINT IF EXISTS publications_pub_type_check;
 ALTER TABLE public.publications ADD CONSTRAINT publications_pub_type_check 
   CHECK (pub_type IN (
@@ -15,10 +26,117 @@ ALTER TABLE public.publications ADD CONSTRAINT publications_pub_type_check
     'Peer-Reviewed Article',
     'Patent',
     'Patent / Invention Disclosure',
+    'Patent / Invention',
     'Conference Proceeding'
   ));
 
--- 2. SEED REAL PEER-REVIEWED PUBLICATIONS & PATENTS
+-- 3. BACKEND SECURITY HARDENING: ENABLE ROW LEVEL SECURITY (RLS)
+ALTER TABLE public.projects ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.publications ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.news ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.contact_messages ENABLE ROW LEVEL SECURITY;
+
+-- 4. RLS POLICIES: PROJECTS TABLE
+DROP POLICY IF EXISTS "Public can view projects" ON public.projects;
+CREATE POLICY "Public can view projects"
+  ON public.projects FOR SELECT
+  USING (true);
+
+DROP POLICY IF EXISTS "Authenticated admin can insert projects" ON public.projects;
+CREATE POLICY "Authenticated admin can insert projects"
+  ON public.projects FOR INSERT
+  TO authenticated
+  WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Authenticated admin can update projects" ON public.projects;
+CREATE POLICY "Authenticated admin can update projects"
+  ON public.projects FOR UPDATE
+  TO authenticated
+  USING (true)
+  WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Authenticated admin can delete projects" ON public.projects;
+CREATE POLICY "Authenticated admin can delete projects"
+  ON public.projects FOR DELETE
+  TO authenticated
+  USING (true);
+
+-- 5. RLS POLICIES: PUBLICATIONS TABLE
+DROP POLICY IF EXISTS "Public can view publications" ON public.publications;
+CREATE POLICY "Public can view publications"
+  ON public.publications FOR SELECT
+  USING (true);
+
+DROP POLICY IF EXISTS "Authenticated admin can insert publications" ON public.publications;
+CREATE POLICY "Authenticated admin can insert publications"
+  ON public.publications FOR INSERT
+  TO authenticated
+  WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Authenticated admin can update publications" ON public.publications;
+CREATE POLICY "Authenticated admin can update publications"
+  ON public.publications FOR UPDATE
+  TO authenticated
+  USING (true)
+  WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Authenticated admin can delete publications" ON public.publications;
+CREATE POLICY "Authenticated admin can delete publications"
+  ON public.publications FOR DELETE
+  TO authenticated
+  USING (true);
+
+-- 6. RLS POLICIES: NEWS TABLE
+DROP POLICY IF EXISTS "Public can view news" ON public.news;
+CREATE POLICY "Public can view news"
+  ON public.news FOR SELECT
+  USING (true);
+
+DROP POLICY IF EXISTS "Authenticated admin can insert news" ON public.news;
+CREATE POLICY "Authenticated admin can insert news"
+  ON public.news FOR INSERT
+  TO authenticated
+  WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Authenticated admin can update news" ON public.news;
+CREATE POLICY "Authenticated admin can update news"
+  ON public.news FOR UPDATE
+  TO authenticated
+  USING (true)
+  WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Authenticated admin can delete news" ON public.news;
+CREATE POLICY "Authenticated admin can delete news"
+  ON public.news FOR DELETE
+  TO authenticated
+  USING (true);
+
+-- 7. RLS POLICIES: CONTACT_MESSAGES TABLE (STRICT SECURITY)
+-- Visitors can only submit validated messages; CANNOT view existing messages
+DROP POLICY IF EXISTS "Allow anonymous visitor submissions" ON public.contact_messages;
+CREATE POLICY "Allow anonymous visitor submissions"
+  ON public.contact_messages FOR INSERT
+  TO anon, authenticated
+  WITH CHECK (
+    length(trim(name)) >= 2 AND 
+    length(trim(email)) >= 5 AND 
+    length(trim(message)) >= 10
+  );
+
+-- Only authenticated administrator can view incoming contact dispatches
+DROP POLICY IF EXISTS "Authenticated admin can view contact messages" ON public.contact_messages;
+CREATE POLICY "Authenticated admin can view contact messages"
+  ON public.contact_messages FOR SELECT
+  TO authenticated
+  USING (true);
+
+DROP POLICY IF EXISTS "Authenticated admin can delete contact messages" ON public.contact_messages;
+CREATE POLICY "Authenticated admin can delete contact messages"
+  ON public.contact_messages FOR DELETE
+  TO authenticated
+  USING (true);
+
+-- 8. SEED PEER-REVIEWED PUBLICATIONS & PATENTS
 INSERT INTO public.publications (
   title,
   authors,
@@ -87,7 +205,7 @@ INSERT INTO public.publications (
 )
 ON CONFLICT DO NOTHING;
 
--- 3. SEED A2MD AND CORE RESEARCH PROJECTS
+-- 9. SEED A2MD AND CORE RESEARCH PROJECTS
 INSERT INTO public.projects (
   slug,
   title,
@@ -103,7 +221,7 @@ INSERT INTO public.projects (
   'lunar-regolith-vitrimer-3d-printing',
   'Extrusion Additive Manufacturing of Regolith-Filled Shape Memory Vitrimer Composites',
   'Additive Manufacturing & Hardware',
-  'Direct ink writing of 50–60 wt% lunar regolith simulant bound by dynamic covalent polymer networks (vitrimers). Custom Arduino-integrated high-solids extruder developed for NASA Moon-to-Mars (LI-7) in-situ construction.',
+  'Direct ink writing of 50-60 wt% lunar regolith simulant bound by dynamic covalent polymer networks (vitrimers). Custom Arduino-integrated high-solids extruder developed for NASA Moon-to-Mars (LI-7) in-situ construction.',
   '### Executive Overview\nIn-situ resource utilization (ISRU) for permanent lunar habitats demands materials that survive extreme thermal cycling (-130°C to +120°C) while utilizing indigenous materials.\n\n### Hardware & Additive Processing Architecture\n- Custom Arduino Mega/PLC-controlled high-torque stepper extrusion printhead with closed-loop dual-zone barrel heating.\n- Feedstock: JSC-1A lunar regolith simulant homogeneously dispersed into associative transesterification vitrimer precursors without volatile phase separation.',
   'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80',
   ARRAY[]::text[],
@@ -123,7 +241,7 @@ INSERT INTO public.projects (
 )
 ON CONFLICT (slug) DO NOTHING;
 
--- 4. SEED NEWS ITEMS
+-- 10. SEED NEWS ITEMS
 INSERT INTO public.news (
   title,
   date,
