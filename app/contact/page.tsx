@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Mail, Linkedin, Github, MapPin, Send, CheckCircle2, AlertCircle, Award, Loader2, ArrowRight } from 'lucide-react';
-import { sendContactMessage } from '@/app/actions/contact';
+import { supabase } from '@/lib/supabase';
 
 export default function ContactPage() {
   const [fullName, setFullName] = useState('');
@@ -21,24 +21,34 @@ export default function ContactPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // 1. Honeypot Anti-Spam Check
+    if (honeypot && honeypot.trim().length > 0) {
+      setSubmitResult({
+        success: false,
+        message: 'Spam verification triggered. Please refresh and try again.',
+      });
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitResult(null);
 
     try {
-      const res = await sendContactMessage({
-        fullName,
-        email,
-        affiliation,
-        subject,
-        message,
-        honeypot,
+      // 2. Direct validated insert into Supabase contact_messages
+      const { error } = await (supabase.from('contact_messages') as any).insert({
+        name: fullName.trim(),
+        email: email.trim().toLowerCase(),
+        affiliation: affiliation.trim() || null,
+        subject: subject.trim(),
+        message: message.trim(),
       });
 
-      if (res.success) {
+      if (!error) {
         setSubmitResult({
           success: true,
-          message: res.message || 'Your inquiry has been successfully transmitted and forwarded to the researcher inbox.',
-          deliveredVia: res.deliveredVia,
+          message: 'Your inquiry has been successfully transmitted and securely archived for Dr. Nyavor and the A2MD team.',
+          deliveredVia: 'database',
         });
         setFullName('');
         setEmail('');
@@ -49,7 +59,7 @@ export default function ContactPage() {
       } else {
         setSubmitResult({
           success: false,
-          message: res.error || 'Unable to deliver message at this time. Please retry or contact directly via email.',
+          message: `Transmission could not be saved: ${error.message}. Please email onyavol@lsu.edu or nyavor.obed@gmail.com directly.`,
         });
       }
     } catch (err: any) {
@@ -174,7 +184,7 @@ export default function ContactPage() {
                 Send Direct Message
               </h2>
               <p className="text-xs font-mono text-[#94A3B8] mt-1">
-                Delivers directly to the principal investigator inbox with automated archive redundancy.
+                Delivers directly to the researcher database with real-time sync.
               </p>
             </div>
 
@@ -187,11 +197,6 @@ export default function ContactPage() {
                 <p className="text-xs leading-relaxed text-emerald-200">
                   {submitResult.message}
                 </p>
-                {submitResult.deliveredVia && (
-                  <span className="inline-block px-2.5 py-1 rounded text-[10px] font-mono bg-emerald-950/60 border border-emerald-500/40 text-emerald-300">
-                    Channel: {submitResult.deliveredVia === 'resend' ? 'Direct Resend Forwarding (donnevaliente@gmail.com)' : 'Encrypted Supabase Archive'}
-                  </span>
-                )}
                 <div className="pt-2">
                   <button
                     onClick={() => setSubmitResult(null)}

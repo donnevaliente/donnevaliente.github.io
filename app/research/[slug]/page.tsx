@@ -10,6 +10,18 @@ interface ProjectSlugProps {
   params: Promise<{ slug: string }>;
 }
 
+export async function generateStaticParams() {
+  try {
+    const { data } = await (supabase.from('projects') as any).select('slug');
+    if (data && data.length > 0) {
+      return data.map((p: any) => ({ slug: String(p.slug) }));
+    }
+  } catch (err) {
+    // fallback to SEED_PROJECTS
+  }
+  return SEED_PROJECTS.map((p) => ({ slug: p.slug }));
+}
+
 async function getProject(slug: string): Promise<Project | null> {
   try {
     const { data, error } = await supabase
@@ -63,7 +75,7 @@ export default async function ProjectDetailPage({ params }: ProjectSlugProps) {
           <div className="flex items-center gap-2 border-b border-[#25616D]/40 pb-3">
             <Terminal className="w-5 h-5 text-[#1B998B]" />
             <h2 className="text-sm font-mono font-bold uppercase text-white tracking-wider">
-              Computational Arsenal & Simulation Parameters
+              Computational Arsenal &amp; Simulation Parameters
             </h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-xs font-mono">
